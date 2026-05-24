@@ -184,7 +184,7 @@ window.handleFormSubmit = function handleFormSubmit(e) {
   // Build clean WhatsApp message — NO emoji to avoid encoding issues
   // WhatsApp markdown: *bold*, _italic_, ~strikethrough~
   const waMsg = [
-    '*[NexaFlow] New Enquiry*',
+    '*[Shubham Goyal — Freelancer] New Enquiry*',
     '',
     `*Name:*    ${name}`,
     `*Email:*   ${email}`,
@@ -195,7 +195,7 @@ window.handleFormSubmit = function handleFormSubmit(e) {
     message,
     '',
     '---',
-    '_Sent via NexaFlow.ai contact form_',
+    '_Sent via contact form_',
   ].join('\n')
 
   // Update button state
