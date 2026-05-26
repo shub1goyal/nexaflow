@@ -296,93 +296,50 @@ function appendMessage(role, text) {
   })
 }
 
-// Settings toggle and load key
-window.toggleSettings = function toggleSettings() {
-  const panel = document.getElementById('drawer-settings')
-  if (!panel) return
-  panel.classList.toggle('hidden')
-  
-  // Fill in existing key if present
-  const savedKey = localStorage.getItem("nexa_openrouter_key") || ""
-  const input = document.getElementById('settings-key')
-  if (input) input.value = savedKey
-}
-
-window.saveApiKey = function saveApiKey() {
-  const input = document.getElementById('settings-key')
-  if (!input) return
-  const key = input.value.trim()
-  
-  if (key) {
-    localStorage.setItem("nexa_openrouter_key", key)
-    alert("API Key saved successfully! Live Llama-3 AI mode is now active.")
-  } else {
-    localStorage.removeItem("nexa_openrouter_key")
-    alert("API Key removed. Switched to high-fidelity client qualifying simulator mode.")
-  }
-  
-  // Collapse settings panel
-  document.getElementById('drawer-settings')?.classList.add('hidden')
-}
-
 async function callOpenRouterAPI(query) {
-  const API_URL = "https://openrouter.ai/api/v1/chat/completions"
-  const apiKey = localStorage.getItem("nexa_openrouter_key") || ""
-  
-  if (!apiKey) {
-    throw new Error("No API key configured. Switch to fallback simulator.")
-  }
+  const API_URL = "/api/chat"
   
   const response = await fetch(API_URL, {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${apiKey}`,
-      "HTTP-Referer": window.location.origin,
-      "X-Title": "NexaFlow Agency Portfolio",
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      model: "meta-llama/llama-3-8b-instruct:free",
-      messages: [
-        {
-          role: "system",
-          content: "You are NexaBot, Shubham Goyal's AI Agency Assistant. Your goal is to represent NexaFlow agency, answer queries about custom websites (₹15,000+), AI agents (₹40,000+), chatbots, and automations. Be professional, friendly, concise, and encourage them to book a free audit on WhatsApp or via the contact form. Keep replies within 2-3 sentences."
-        },
-        {
-          role: "user",
-          content: query
-        }
-      ]
-    })
+    body: JSON.stringify({ query })
   })
 
   if (!response.ok) {
-    throw new Error(`OpenRouter returned status ${response.status}`)
+    const errorData = await response.json().catch(() => ({}))
+    throw new Error(errorData.error || `Server returned status ${response.status}`)
   }
 
   const data = await response.json()
-  const content = data?.choices?.[0]?.message?.content
-  if (!content) throw new Error("Empty response from OpenRouter")
-  
-  return content
+  return data.content
 }
 
 function getSimulatedAgentReply(query) {
   const q = query.toLowerCase()
   
   if (q.includes('price') || q.includes('cost') || q.includes('pricing') || q.includes('charge')) {
-    return "Our pricing is transparent and highly competitive: Custom Websites start at ₹15,000 (7-day delivery), Growth Automations start at ₹40,000, and Enterprise integrations are custom-quoted. I highly recommend booking a free 30-minute audit so Shubham can give you a precise roadmap!"
+    return "At NexaFlow, we have transparent, highly competitive packages: Custom Websites start at ₹15,000, and Growth/AI Automations start at ₹40,000. Let's schedule a free 30-min audit to outline a precise custom roadmap for your business!"
   }
   if (q.includes('website') || q.includes('web') || q.includes('custom website')) {
-    return "Shubham builds blazing-fast, mobile-first websites using modern stacks like Vite + Tailwind CSS. Our starter site is ₹15,000 and is fully search-engine optimized (SEO) to help you get customers fast. Would you like to schedule a free call to discuss your site idea?"
+    return "NexaFlow builds blazing-fast, mobile-first websites using Vite + Tailwind CSS. Our starter site is ₹15,000, fully SEO-optimized, and built to convert visitors. We deploy in 5-14 days!"
   }
   if (q.includes('bot') || q.includes('chat') || q.includes('chatbot') || q.includes('whatsapp')) {
-    return "We specialize in custom WhatsApp Business API chatbots and web support agents that capture leads, qualify budgets, and handle table or clinic bookings 24/7. They pay for themselves in days by ensuring you never miss a lead! Let's book an audit to outline a chat flow for you."
+    return "NexaFlow designs custom WhatsApp Business API chatbots and smart web support agents. They qualify leads, handle bookings 24/7, and automatically sync data directly to your CRM."
   }
   if (q.includes('automation') || q.includes('make') || q.includes('zapier') || q.includes('workflow')) {
-    return "We design automated pipelines using Make.com, Zapier, and custom code to connect your lead captures directly to Notion CRM, WhatsApp notifications, and automated invoicing. It eliminates manual tasks and saves our average client 15+ hours a week!"
+    return "NexaFlow builds automated pipelines using Make.com, Zapier, and custom serverless functions. We eliminate manual tasks, save clients 15+ hours a week, and integrate lead captures straight into Notion."
+  }
+  if (q.includes('work') || q.includes('process') || q.includes('how you work') || q.includes('step')) {
+    return "NexaFlow works in a rapid 4-step process: 1. Free Discovery Call (discuss goals) ➔ 2. Strategy & Wireframe (within 48 hours) ➔ 3. Rapid Development (built in 5-14 days) ➔ 4. Launch & Grow (support & optimization). Fast and reliable!"
   }
   
-  return "That sounds like an excellent project! Shubham specializes in custom web builds, advanced AI agents, and workflow automations tailored directly to your business goals. Let's schedule a free 30-minute audit call so we can map out a custom solution for you. Would you like to send a message via WhatsApp?"
+  // Refuse general/unrelated queries
+  if (q.includes('code') || q.includes('python') || q.includes('javascript') || q.includes('html') || q.includes('write') || q.includes('how to')) {
+    return "I am pre-programmed to discuss NexaFlow agency and Shubham Goyal's professional development services only. If you'd like us to build a custom website, AI agent, or business automation for you, let's connect for a free audit!"
+  }
+  
+  return "NexaFlow specializes in custom web builds, advanced AI agents, and workflow automations to help small businesses compete like enterprises. We work fast (launch in 5-14 days). Let's book a free 30-minute audit call via WhatsApp!"
 }
 

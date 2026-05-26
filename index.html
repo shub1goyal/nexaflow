@@ -883,39 +883,20 @@
   <!-- ===== AI AGENT CHAT DRAWER ===== -->
   <div id="agent-drawer" class="fixed inset-y-0 right-0 z-50 glass-strong w-full sm:w-[450px] transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl border-l border-white/10">
     <!-- Header -->
-    <div class="p-5 border-b border-white/5 flex flex-col bg-surface-high">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 relative">
-            <span class="material-symbols-outlined text-primary text-xl select-none">smart_toy</span>
-            <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-400 border-2 border-surface-high animate-pulse"></span>
-          </div>
-          <div>
-            <div class="font-semibold text-sm text-on-surface">NexaBot</div>
-            <div class="text-[9px] font-mono text-green-400 font-bold uppercase tracking-wider">Agency Assistant</div>
-          </div>
+    <div class="p-5 border-b border-white/5 flex items-center justify-between bg-surface-high">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 relative">
+          <span class="material-symbols-outlined text-primary text-xl select-none">smart_toy</span>
+          <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-400 border-2 border-surface-high animate-pulse"></span>
         </div>
-        <div class="flex items-center gap-2">
-          <button onclick="toggleSettings()" class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center transition-colors" title="AI Settings">
-            <span class="material-symbols-outlined text-on-surface-muted text-base">settings</span>
-          </button>
-          <button onclick="toggleAgentDrawer(false)" class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center transition-colors">
-            <span class="material-symbols-outlined text-on-surface text-base">close</span>
-          </button>
+        <div>
+          <div class="font-semibold text-sm text-on-surface">NexaBot</div>
+          <div class="text-[9px] font-mono text-green-400 font-bold uppercase tracking-wider">Agency Assistant</div>
         </div>
       </div>
-
-      <!-- Collapsible Settings Panel -->
-      <div id="drawer-settings" class="hidden mt-4 pt-4 border-t border-white/5 space-y-2">
-        <label class="block text-[10px] font-mono text-on-surface-muted uppercase tracking-wider">OpenRouter API Key (Optional):</label>
-        <div class="flex gap-2">
-          <input id="settings-key" type="password" class="form-input text-[10px] py-1.5 px-3 rounded-lg flex-1 bg-white/5 border border-white/10" placeholder="sk-or-v1-..." />
-          <button onclick="saveApiKey()" class="px-3 py-1.5 bg-primary/20 hover:bg-primary/30 border border-primary/30 rounded-lg font-mono text-[10px] text-primary-light font-bold transition-all">Save</button>
-        </div>
-        <p class="text-[9px] text-on-surface-muted leading-relaxed">
-          Enter a free tier OpenRouter key to test live Llama-3 API. If blank, NexaBot runs in highly realistic client-qualifying simulation mode.
-        </p>
-      </div>
+      <button onclick="toggleAgentDrawer(false)" class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center transition-colors">
+        <span class="material-symbols-outlined text-on-surface text-base">close</span>
+      </button>
     </div>
 
     <!-- Messages Container -->
