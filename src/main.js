@@ -310,7 +310,7 @@ function escapeHtml(value) {
 
 function linkifyText(value) {
   const input = String(value || '')
-  const matcher = /(https?:\/\/[^\s<]+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}|\+91[\s-]?\d{5}[\s-]?\d{5})/gi
+  const matcher = /(https?:\/\/[^\s<>]+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}|\+91[\s\u00a0\u202f-]?\d{5}[\s\u00a0\u202f-]?\d{5})/gi
   let html = ''
   let lastIndex = 0
   let match
@@ -318,13 +318,13 @@ function linkifyText(value) {
   while ((match = matcher.exec(input)) !== null) {
     html += escapeHtml(input.slice(lastIndex, match.index))
     const token = match[0]
-    const cleanToken = token.replace(/[.,!?)]$/, '')
+    const cleanToken = token.replace(/[.,!?)>]+$/, '')
     const suffix = token.slice(cleanToken.length)
     let href = cleanToken
 
     if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(cleanToken)) {
       href = `mailto:${cleanToken}`
-    } else if (/^\+91[\s-]?\d{5}[\s-]?\d{5}$/.test(cleanToken)) {
+    } else if (/^\+91[\s\u00a0\u202f-]?\d{5}[\s\u00a0\u202f-]?\d{5}$/.test(cleanToken)) {
       href = `https://wa.me/${cleanToken.replace(/\D/g, '')}`
     }
 
