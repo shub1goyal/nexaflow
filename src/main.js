@@ -273,7 +273,7 @@ function appendMessage(role, text) {
   const innerHTML = role === 'user' 
     ? `
       <div class="p-3.5 rounded-2xl rounded-tr-none bg-primary/10 border border-primary/20 text-xs text-on-surface leading-relaxed font-sans">
-        ${text}
+        ${linkifyText(text)}
       </div>
       <div class="w-7 h-7 rounded-lg bg-primary/15 flex items-center justify-center shrink-0 border border-primary/20">
         <span class="material-symbols-outlined text-primary text-xs select-none">person</span>
@@ -284,7 +284,7 @@ function appendMessage(role, text) {
         <span class="material-symbols-outlined text-primary text-xs select-none">smart_toy</span>
       </div>
       <div class="p-3.5 rounded-2xl rounded-tl-none bg-white/5 border border-white/5 text-xs text-on-surface-muted leading-relaxed font-sans">
-        ${text}
+        ${linkifyText(text)}
       </div>
     `
 
@@ -296,6 +296,45 @@ function appendMessage(role, text) {
     top: container.scrollHeight,
     behavior: 'smooth'
   })
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;')
+    .replace(/\n/g, '<br/>')
+}
+
+function linkifyText(value) {
+  const input = String(value || '')
+  const matcher = /(https?:\/\/[^\s<]+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}|\+91[\s-]?\d{5}[\s-]?\d{5})/gi
+  let html = ''
+  let lastIndex = 0
+  let match
+
+  while ((match = matcher.exec(input)) !== null) {
+    html += escapeHtml(input.slice(lastIndex, match.index))
+    const token = match[0]
+    const cleanToken = token.replace(/[.,!?)]$/, '')
+    const suffix = token.slice(cleanToken.length)
+    let href = cleanToken
+
+    if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(cleanToken)) {
+      href = `mailto:${cleanToken}`
+    } else if (/^\+91[\s-]?\d{5}[\s-]?\d{5}$/.test(cleanToken)) {
+      href = `https://wa.me/${cleanToken.replace(/\D/g, '')}`
+    }
+
+    const externalAttrs = href.startsWith('http') ? ' target="_blank" rel="noopener noreferrer"' : ''
+    html += `<a href="${escapeHtml(href)}"${externalAttrs} class="text-primary-light underline underline-offset-2 font-semibold break-words">${escapeHtml(cleanToken)}</a>${escapeHtml(suffix)}`
+    lastIndex = matcher.lastIndex
+  }
+
+  html += escapeHtml(input.slice(lastIndex))
+  return html
 }
 
 async function callOpenRouterAPI(query) {

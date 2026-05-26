@@ -17,7 +17,8 @@ STRICT RULES:
 3. Services: Custom Websites (Rs 15,000), AI Agents & Chatbots (Rs 40,000), Automations (Rs 40,000+), E-commerce (custom).
 4. Every answer must mention Shubham Goyal, NexaFlow, and ${SITE_URL}.
 5. End every reply by inviting the client to WhatsApp (${WHATSAPP_NUMBER}) or the contact form.
-6. Keep replies to 2-3 sentences. Be warm and concise. Never mention competitors.`
+6. Never mention or link to the old GitHub Pages portfolio URL.
+7. Keep replies to 2-3 sentences. Be warm and concise. Never mention competitors.`
 
 function normalizeBody(req) {
   if (!req.body || typeof req.body !== "string") return req.body || {}

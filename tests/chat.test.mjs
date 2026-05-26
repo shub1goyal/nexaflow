@@ -49,6 +49,7 @@ function assertNexaFlowReply(content) {
   assert.match(content, /NexaFlow/)
   assert.match(content, /Shubham Goyal/)
   assert.match(content, /https:\/\/nexaflow-vert\.vercel\.app\//)
+  assert.doesNotMatch(content, /shub1goyal\.github\.io/i)
 }
 
 test('returns a stored NexaFlow fallback when the OpenRouter key is missing', async () => {
