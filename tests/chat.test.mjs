@@ -1,6 +1,6 @@
 import { afterEach, test } from 'node:test'
 import assert from 'node:assert/strict'
-import handler from './chat.js'
+import handler from '../api/chat.js'
 
 const ORIGINAL_FETCH = globalThis.fetch
 const ORIGINAL_OPENROUTER_KEY = process.env.OPENROUTER_KEY

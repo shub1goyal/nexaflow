@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "test": "node --test api/chat.test.mjs",
+    "test": "node --test tests/chat.test.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },
