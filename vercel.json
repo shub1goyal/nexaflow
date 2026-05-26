@@ -4,12 +4,11 @@
   "installCommand": "npm install",
   "framework": null,
   "functions": {
-    "api/chat.cjs": {
+    "api/chat.js": {
       "runtime": "nodejs20.x"
     }
   },
   "rewrites": [
-    { "source": "/api/chat", "destination": "/api/chat.cjs" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
