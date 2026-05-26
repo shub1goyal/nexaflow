@@ -155,6 +155,8 @@ sections.forEach(s => navObserver.observe(s))
 
 // ---- Contact Form → WhatsApp ---------------------------------------
 const WA_NUMBER = '919050656846'
+const NEXAFLOW_SITE_URL = 'https://nexaflow-vert.vercel.app/'
+const NEXAFLOW_OWNER_DETAIL = `Shubham Goyal leads NexaFlow for custom websites, AI chatbots, AI agents, automations, and e-commerce systems. See ${NEXAFLOW_SITE_URL} or WhatsApp +91 90506 56846 to start.`
 
 const SERVICE_LABELS = {
   'website':    'Custom Website',
@@ -256,7 +258,7 @@ window.handleAgentSubmit = async function handleAgentSubmit(e) {
     loadingEl.classList.add('hidden')
     
     // Switch to highly realistic fallback simulation
-    const simulatedReply = getSimulatedAgentReply(userQuery)
+    const simulatedReply = withNexaFlowDetails(getSimulatedAgentReply(userQuery))
     appendMessage('ai', simulatedReply)
   }
 }
@@ -343,3 +345,11 @@ function getSimulatedAgentReply(query) {
   return "NexaFlow specializes in custom web builds, advanced AI agents, and workflow automations to help small businesses compete like enterprises. We work fast (launch in 5-14 days). Let's book a free 30-minute audit call via WhatsApp!"
 }
 
+function withNexaFlowDetails(reply) {
+  const hasNexaFlow = /NexaFlow/i.test(reply)
+  const hasOwner = /Shubham Goyal/i.test(reply)
+  const hasSite = reply.includes(NEXAFLOW_SITE_URL)
+
+  if (hasNexaFlow && hasOwner && hasSite) return reply
+  return `${reply}\n\n${NEXAFLOW_OWNER_DETAIL}`
+}
