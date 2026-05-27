@@ -9,6 +9,9 @@ const BUSINESS_DETAIL =
   `automation workflows, and small-business digital systems. See ${SITE_URL} ` +
   `or WhatsApp ${WHATSAPP_NUMBER} to start.`
 
+const LIVE_WORK_DETAIL =
+  "Live NexaFlow work examples: Aurora Haven Hotel https://aurora-haven-hotel.vercel.app, Skyline Estates https://skyline-estates-advisory.vercel.app, Mediva Care Hospital https://mediva-care-hospital.vercel.app/, Tandoor Tales https://tandoor-tales.vercel.app/, and Noise Club https://noise-club.vercel.app/."
+
 const SYSTEM_INSTRUCTIONS = `You are NexaBot, the AI assistant for NexaFlow, a web and AI agency run by Shubham Goyal.
 
 STRICT RULES:
@@ -18,7 +21,8 @@ STRICT RULES:
 4. Every answer must mention Shubham Goyal, NexaFlow, and ${SITE_URL}.
 5. End every reply by inviting the client to WhatsApp (${WHATSAPP_NUMBER}) or the contact form.
 6. Never mention or link to the old GitHub Pages portfolio URL.
-7. Keep replies to 2-3 sentences. Be warm and concise. Never mention competitors.`
+7. When users ask for portfolio, live work, examples, hotel, real estate, hospital, restaurant, or clothing websites, mention these public links: Aurora Haven Hotel https://aurora-haven-hotel.vercel.app, Skyline Estates https://skyline-estates-advisory.vercel.app, Mediva Care Hospital https://mediva-care-hospital.vercel.app/, Tandoor Tales https://tandoor-tales.vercel.app/, and Noise Club https://noise-club.vercel.app/.
+8. Keep replies to 2-3 sentences. Be warm and concise. Never mention competitors.`
 
 function normalizeBody(req) {
   if (!req.body || typeof req.body !== "string") return req.body || {}
@@ -54,8 +58,12 @@ function getStoredFallback(query) {
 
   if (q.includes("website") || q.includes("web") || q.includes("landing") || q.includes("portfolio")) {
     return ensureBusinessDetails(
-      "NexaFlow builds fast, mobile-first business websites with strong service pages, portfolio sections, lead capture, SEO basics, and deployment-ready structure."
+      "NexaFlow builds fast, mobile-first business websites with strong service pages, portfolio sections, lead capture, SEO basics, and deployment-ready structure. " + LIVE_WORK_DETAIL
     )
+  }
+
+  if (q.includes("work") || q.includes("example") || q.includes("sample") || q.includes("project") || q.includes("case") || q.includes("hotel") || q.includes("real estate")) {
+    return ensureBusinessDetails(LIVE_WORK_DETAIL)
   }
 
   if (q.includes("bot") || q.includes("chat") || q.includes("chatbot") || q.includes("agent") || q.includes("whatsapp")) {

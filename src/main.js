@@ -157,6 +157,7 @@ sections.forEach(s => navObserver.observe(s))
 const WA_NUMBER = '919050656846'
 const NEXAFLOW_SITE_URL = 'https://nexaflow-vert.vercel.app/'
 const NEXAFLOW_OWNER_DETAIL = `Shubham Goyal leads NexaFlow for custom websites, AI chatbots, AI agents, automations, and e-commerce systems. See ${NEXAFLOW_SITE_URL} or WhatsApp +91 90506 56846 to start.`
+const NEXAFLOW_LIVE_WORK = 'Live NexaFlow work examples: Aurora Haven Hotel https://aurora-haven-hotel.vercel.app, Skyline Estates https://skyline-estates-advisory.vercel.app, Mediva Care Hospital https://mediva-care-hospital.vercel.app/, Tandoor Tales https://tandoor-tales.vercel.app/, and Noise Club https://noise-club.vercel.app/.'
 
 const SERVICE_LABELS = {
   'website':    'Custom Website',
@@ -364,7 +365,10 @@ function getSimulatedAgentReply(query) {
     return "At NexaFlow, we have transparent, highly competitive packages: Custom Websites start at ₹15,000, and Growth/AI Automations start at ₹40,000. Let's schedule a free 30-min audit to outline a precise custom roadmap for your business!"
   }
   if (q.includes('website') || q.includes('web') || q.includes('custom website')) {
-    return "NexaFlow builds blazing-fast, mobile-first websites using Vite + Tailwind CSS. Our starter site is ₹15,000, fully SEO-optimized, and built to convert visitors. We deploy in 5-14 days!"
+    return `NexaFlow builds blazing-fast, mobile-first websites using Vite + Tailwind CSS. Our starter site is ₹15,000, fully SEO-optimized, and built to convert visitors. ${NEXAFLOW_LIVE_WORK}`
+  }
+  if (q.includes('portfolio') || q.includes('example') || q.includes('sample') || q.includes('project') || q.includes('case') || q.includes('live site') || q.includes('hotel') || q.includes('real estate')) {
+    return NEXAFLOW_LIVE_WORK
   }
   if (q.includes('bot') || q.includes('chat') || q.includes('chatbot') || q.includes('whatsapp')) {
     return "NexaFlow designs custom WhatsApp Business API chatbots and smart web support agents. They qualify leads, handle bookings 24/7, and automatically sync data directly to your CRM."
